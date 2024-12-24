@@ -113,9 +113,16 @@ uploaded_file = st.sidebar.file_uploader("Sube un archivo CSV", type="csv")
 st.sidebar.header("Cargar modelo")
 uploaded_model = st.sidebar.file_uploader("Sube un archivo de modelo (PKL)", type="gz")
 
+uploaded_json = st.sidebar.file_uploader("Carga la estructura de los datos (json)", type="json")
+
 if uploaded_file:
-    with open('dtypes.json', 'r') as f:
-        dtypes = json.load(f)
+    #with open('dtypes.json', 'r') as f:
+    #    dtypes = json.load(f)
+    # Read the file as bytes
+    file_bytes = uploaded_json.read()
+    # Convert bytes to a string, then parse JSON
+    dtypes = json.loads(file_bytes.decode("utf-8"))
+    
     data = pd.read_csv(uploaded_file, dtype=dtypes)
     st.write("### Vista previa de los datos")
     st.write(f'Tamaño de la muestra: {data.shape[0]} filas (niñas y niños)')
