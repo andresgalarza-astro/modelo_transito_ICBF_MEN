@@ -1,3 +1,4 @@
+gzip
 pandas
 seaborn
 scikit-learn

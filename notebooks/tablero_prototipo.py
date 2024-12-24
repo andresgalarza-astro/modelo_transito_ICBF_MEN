@@ -1,4 +1,5 @@
 import json
+import gzip
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -122,7 +123,8 @@ if uploaded_file:
 
     import joblib
     with st.spinner("Cargando modelo..."):
-        model = joblib.load(uploaded_model)
+        with gzip.open('model.pkl.gz', 'rb') as f:
+            model = joblib.load(uploaded_model)
         st.success("Modelo cargado correctamente.")
 
     # Asume que la última columna es la etiqueta verdadera
