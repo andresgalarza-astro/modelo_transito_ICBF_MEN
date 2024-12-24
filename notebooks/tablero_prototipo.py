@@ -92,7 +92,7 @@ class FrequencyEncoder(BaseEstimator, TransformerMixin):
 @st.cache_resource
 def load_model():
     # Replace with your actual repository ID and filename
-    repo_id = "AstroGamer/my-ml-model-repo"
+    repo_id = "AstroGamer/transito_icbf"
     filename = "modelo_clasificacion.pkl.gz"
     
     # Download the model file from Hugging Face Hub
