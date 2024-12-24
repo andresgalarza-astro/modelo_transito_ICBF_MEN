@@ -16,6 +16,18 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.base import BaseEstimator, TransformerMixin
 from datetime import datetime
 
+
+st.markdown(
+    """
+    <style>
+    [data-testid="stSidebar"] {
+        background-color: #8CC152;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 numerical_columns = ['EDAD_CIERRE_VIGENCIA', 'PUNTAJE_SISBEN_OFICIAL', 'Analfabetismo_Total',
                      'Analfabetismo_Parcial', 'Barreras a servicios para cuidado de la primera infancia_Total',
                      'Barreras a servicios para cuidado de la primera infancia_Parcial',
@@ -78,28 +90,40 @@ st.title("Tablero de Control - Modelo de Clasificación")
 st.markdown("Este tablero presenta los resultados del modelo de clasificación.")
 
 # Subir datos de prueba
-st.html(
-    """
-<style>
-[data-testid="stSidebarContent"] {
-    color: white;
-    background-color: green;
-}
-</style>
-"""
-)
+#st.html(
+#    """
+#<style>
+#[data-testid="stSidebarContent"] {
+#    color: white;
+#    background-color: green;
+#}
+#</style>
+#"""
+#)
 
 
 st.sidebar.header("Cargar datos")
 uploaded_file = st.sidebar.file_uploader("Sube un archivo CSV", type="csv")
 
+#st.sidebar.header("Cargar estructura datos")
+#dtypes = st.sidebar.file_uploader("Sube un archivo json", type="json")
+
+# ----- Sidebar for Model Upload -----
+st.sidebar.header("Cargar modelo")
+uploaded_model = st.sidebar.file_uploader("Sube un archivo de modelo (PKL)", type="pkl")
+
 if uploaded_file:
-    with open('data/dtypes.json', 'r') as f:
+    with open('../data/dtypes.json', 'r') as f:
         dtypes = json.load(f)
     data = pd.read_csv(uploaded_file, dtype=dtypes)
     st.write("### Vista previa de los datos")
     st.write(f'Tamaño de la muestra: {data.shape[0]} filas (niñas y niños)')
     #st.dataframe(data.head())
+
+    import joblib
+    with st.spinner("Cargando modelo..."):
+        model = joblib.load(uploaded_model)
+        st.success("Modelo cargado correctamente.")
 
     # Asume que la última columna es la etiqueta verdadera
     true_labels = data.iloc[:, -1]
@@ -108,10 +132,9 @@ if uploaded_file:
     # Cargar modelo
     # Reemplaza `model` con tu modelo entrenado
     # Ejemplo: model = joblib.load('tu_modelo.pkl')
-    import joblib
-    pkl_filename = 'models/modelo_clasificacion.pkl'
+    # pkl_filename = 'models/modelo_clasificacion.pkl'
     #with open(pkl_filename, 'rb') as file:
-    model = joblib.load(pkl_filename)
+    # model = joblib.load(pkl_filename)
     predictions = model.predict(features)
     probabilidades = model.predict_proba(features)
     data[['Probabilidad No Tránsito', 'Probabilidad Tránsito']] = np.round(100*probabilidades, 1) 
