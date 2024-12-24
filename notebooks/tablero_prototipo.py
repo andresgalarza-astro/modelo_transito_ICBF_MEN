@@ -102,15 +102,11 @@ def load_model():
         if chunk:
             compressed_stream.write(chunk)
     
-    compressed_stream.seek(0)
-    with gzip.GzipFile(fileobj=compressed_stream) as f:
-        # Option A: Using pickle
-        #model = pickle.load(f)
-        
-        # Option B: Using joblib (if you saved with joblib)
+     # Load the model from the downloaded content
+    with gzip.GzipFile(fileobj=io.BytesIO(response.content)) as f:
         model = joblib.load(f)
-        
     return model
+
 
 # Configurar título del tablero
 st.title("Tablero de Control - Modelo de Clasificación")
