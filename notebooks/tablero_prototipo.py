@@ -131,7 +131,7 @@ if uploaded_file:
     import joblib
     with st.spinner("Cargando modelo..."):
         with gzip.open(uploaded_model, 'rb') as f:
-            model = joblib.load(uploaded_model)
+            model = joblib.load(f)
         st.success("Modelo cargado correctamente.")
 
     # Asume que la última columna es la etiqueta verdadera
