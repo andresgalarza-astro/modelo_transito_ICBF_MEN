@@ -90,21 +90,16 @@ class FrequencyEncoder(BaseEstimator, TransformerMixin):
 # Function to download and load the model
 @st.cache_resource
 def load_model():
-    # Option 1: Using direct URL (Hugging Face, GitHub, etc.)
-    # Replace with your actual model URL
-    model_url = "https://huggingface.co/AstroGamer/transito_icbf/blob/main/modelo_clasificacion.pkl.gz"
+    # Replace with your actual repository ID and filename
+    repo_id = "AstroGamer/my-ml-model-repo"
+    filename = "modelo_clasificacion.pkl.gz"
     
-    response = requests.get(model_url, stream=True)
-    response.raise_for_status()
+    # Download the model file from Hugging Face Hub
+    model_path = hf_hub_download(repo_id=repo_id, filename=filename)
     
-    compressed_stream = io.BytesIO()
-    for chunk in response.iter_content(chunk_size=8192):
-        if chunk:
-            compressed_stream.write(chunk)
-    
-     # Load the model from the downloaded content
-    with gzip.GzipFile(fileobj=io.BytesIO(response.content)) as f:
-        model = joblib.load(f)
+    # Load the model using gzip and pickle
+    with gzip.open(model_path, "rb") as f:
+        model = pickle.load(f)
     return model
 
 
