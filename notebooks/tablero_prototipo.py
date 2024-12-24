@@ -206,10 +206,10 @@ if uploaded_file and uploaded_json and uploaded_model:
                 sns.boxplot(y='RESULTADO CRUCE', x=col, data=data, orient="h", ax=ax)
                 ax.set_title(f"{col} vs Etiquetas")
                 st.pyplot(fig)
-
+'''
     except Exception as e:
         st.error(f"Error al cargar los datos o el modelo: {e}")
 
 else:
     st.warning("Por favor, sube un archivo CSV, un archivo de modelo (PKL) y un archivo JSON con la estructura de los datos.")
-'''    
+    
