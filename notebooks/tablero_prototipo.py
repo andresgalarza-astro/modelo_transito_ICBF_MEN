@@ -126,7 +126,7 @@ uploaded_file = st.sidebar.file_uploader("Sube un archivo CSV", type="csv")
 
 uploaded_json = st.sidebar.file_uploader("Carga la estructura de los datos (json)", type="json")
 
-if uploaded_file and uploaded_jsonl:
+if uploaded_file and uploaded_json:
     try:
         # Read and decode JSON file
         file_bytes = uploaded_json.read()
