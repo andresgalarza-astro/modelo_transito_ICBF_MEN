@@ -17,6 +17,8 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.base import BaseEstimator, TransformerMixin
 from datetime import datetime
 
+import joblib
+
 st.markdown(
     """
     <style>
@@ -83,6 +85,31 @@ class FrequencyEncoder(BaseEstimator, TransformerMixin):
             X[col] = X[col].map(self.freq_maps[col])
         return X
 
+# Function to download and load the model
+@st.cache_resource
+def load_model():
+    # Option 1: Using direct URL (Hugging Face, GitHub, etc.)
+    # Replace with your actual model URL
+    model_url = "https://huggingface.co/AstroGamer/transito_icbf/blob/main/modelo_clasificacion.pkl.gz"
+    
+    response = requests.get(model_url, stream=True)
+    response.raise_for_status()
+    
+    compressed_stream = io.BytesIO()
+    for chunk in response.iter_content(chunk_size=8192):
+        if chunk:
+            compressed_stream.write(chunk)
+    
+    compressed_stream.seek(0)
+    with gzip.GzipFile(fileobj=compressed_stream) as f:
+        # Option A: Using pickle
+        #model = pickle.load(f)
+        
+        # Option B: Using joblib (if you saved with joblib)
+        model = joblib.load(f)
+        
+    return model
+
 # Configurar título del tablero
 st.title("Tablero de Control - Modelo de Clasificación")
 
@@ -94,12 +121,12 @@ st.sidebar.header("Cargar datos")
 uploaded_file = st.sidebar.file_uploader("Sube un archivo CSV", type="csv")
 
 # ----- Sidebar for Model Upload -----
-st.sidebar.header("Cargar modelo")
-uploaded_model = st.sidebar.file_uploader("Sube un archivo de modelo (PKL)", type="gz")
+#st.sidebar.header("Cargar modelo")
+#uploaded_model = st.sidebar.file_uploader("Sube un archivo de modelo (PKL)", type="gz")
 
 uploaded_json = st.sidebar.file_uploader("Carga la estructura de los datos (json)", type="json")
 
-if uploaded_file and uploaded_json and uploaded_model:
+if uploaded_file and uploaded_jsonl:
     try:
         # Read and decode JSON file
         file_bytes = uploaded_json.read()
@@ -112,11 +139,14 @@ if uploaded_file and uploaded_json and uploaded_model:
         st.dataframe(data.head())
 
         # Load the model
-        import joblib
-        with st.spinner("Cargando modelo..."):
-            with gzip.open(uploaded_model, 'rb') as f:
-                model = joblib.load(f)
-            st.success("Modelo cargado correctamente.")
+        
+        #with st.spinner("Cargando modelo..."):
+        #    with gzip.open(uploaded_model, 'rb') as f:
+        #        model = joblib.load(f)
+        #    st.success("Modelo cargado correctamente.")
+
+        model = load_model()
+        st.success("Model loaded successfully!")
 
         # Prepare data for prediction
         true_labels = data.iloc[:, -1]
@@ -175,5 +205,5 @@ if uploaded_file and uploaded_json and uploaded_model:
         st.error(f"Error al cargar los datos o el modelo: {e}")
 
 else:
-    st.warning("Por favor, sube un archivo CSV, un archivo de modelo (PKL) y un archivo JSON con la estructura de los datos.")
+    st.warning("Por favor, sube un archivo CSV y un archivo JSON con la estructura de los datos.")
     
