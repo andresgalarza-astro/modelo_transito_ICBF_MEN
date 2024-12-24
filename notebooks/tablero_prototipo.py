@@ -20,6 +20,7 @@ from sklearn.base import BaseEstimator, TransformerMixin
 from datetime import datetime
 
 import joblib
+from huggingface_hub import hf_hub_download
 
 st.markdown(
     """
