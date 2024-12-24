@@ -1,3 +1,4 @@
-scikit-learn
-seaborn
 pandas
+seaborn
+scikit-learn
+imbalanced-learn
