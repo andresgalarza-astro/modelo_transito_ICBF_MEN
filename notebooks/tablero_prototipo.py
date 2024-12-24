@@ -114,7 +114,7 @@ st.sidebar.header("Cargar modelo")
 uploaded_model = st.sidebar.file_uploader("Sube un archivo de modelo (PKL)", type="gz")
 
 if uploaded_file:
-    with open('../data/dtypes.json', 'r') as f:
+    with open('dtypes.json', 'r') as f:
         dtypes = json.load(f)
     data = pd.read_csv(uploaded_file, dtype=dtypes)
     st.write("### Vista previa de los datos")
