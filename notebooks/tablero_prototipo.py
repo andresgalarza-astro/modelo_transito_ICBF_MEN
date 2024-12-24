@@ -140,7 +140,7 @@ if uploaded_file and uploaded_json:
         #    st.success("Modelo cargado correctamente.")
 
         model = load_model()
-        st.success("Model loaded successfully!")
+        st.success("Modelo predictivo cargado correctamente.")
 
         # Prepare data for prediction
         true_labels = data.iloc[:, -1]
