@@ -170,43 +170,7 @@ if uploaded_file and uploaded_json and uploaded_model:
         ax.set_ylabel('Importance')
         ax.set_title('Top 10 Feature Importances')
         st.pyplot(fig)
-'''
-        # Display numeric distributions
-        numeric_cols = data.select_dtypes(include=['float64', 'int64']).columns
-        if not numeric_cols.empty:
-            st.write("### Distribución de Variables Numéricas")
-            for col in numeric_cols:
-                fig, ax = plt.subplots()
-                sns.histplot(data[col], bins=25, ax=ax)
-                ax.set_title(f"Distribución de {col}")
-                st.pyplot(fig)
 
-        # Display class balance
-        if 'RESULTADO CRUCE' in data.columns:
-            st.write("### Balance de Clases")
-            fig, ax = plt.subplots()
-            sns.countplot(x='RESULTADO CRUCE', data=data, ax=ax)
-            ax.set_title("Distribución de Clases")
-            st.pyplot(fig)
-
-        # Display correlation matrix
-        if not numeric_cols.empty:
-            st.write("### Matriz de Correlación")
-            fig, ax = plt.subplots(figsize=(10, 8))
-            corr_matrix = data[numeric_cols].corr()
-            sns.heatmap(corr_matrix, annot=True, fmt=".2f", cmap="coolwarm", ax=ax)
-            ax.set_title("Matriz de Correlación")
-            st.pyplot(fig)
-
-        # Display relationships between variables and labels
-        if 'RESULTADO CRUCE' in data.columns and not numeric_cols.empty:
-            st.write("### Relación entre Variables y Etiquetas")
-            for col in numeric_cols:
-                fig, ax = plt.subplots()
-                sns.boxplot(y='RESULTADO CRUCE', x=col, data=data, orient="h", ax=ax)
-                ax.set_title(f"{col} vs Etiquetas")
-                st.pyplot(fig)
-'''
     except Exception as e:
         st.error(f"Error al cargar los datos o el modelo: {e}")
 
