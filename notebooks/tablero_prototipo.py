@@ -1,3 +1,4 @@
+import io
 import requests
 import json
 import gzip
