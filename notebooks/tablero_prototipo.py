@@ -130,7 +130,7 @@ if uploaded_file:
 
     import joblib
     with st.spinner("Cargando modelo..."):
-        with gzip.open('model.pkl.gz', 'rb') as f:
+        with gzip.open(uploaded_model, 'rb') as f:
             model = joblib.load(uploaded_model)
         st.success("Modelo cargado correctamente.")
 
