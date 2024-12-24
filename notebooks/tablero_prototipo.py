@@ -111,7 +111,7 @@ uploaded_file = st.sidebar.file_uploader("Sube un archivo CSV", type="csv")
 
 # ----- Sidebar for Model Upload -----
 st.sidebar.header("Cargar modelo")
-uploaded_model = st.sidebar.file_uploader("Sube un archivo de modelo (PKL)", type="pkl")
+uploaded_model = st.sidebar.file_uploader("Sube un archivo de modelo (PKL)", type="gzip")
 
 if uploaded_file:
     with open('../data/dtypes.json', 'r') as f:
