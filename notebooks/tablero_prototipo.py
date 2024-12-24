@@ -100,7 +100,7 @@ def load_model():
     
     # Load the model using gzip and pickle
     with gzip.open(model_path, "rb") as f:
-        model = pickle.load(f)
+        model = joblib.load(f)
     return model
 
 
