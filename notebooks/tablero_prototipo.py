@@ -170,7 +170,7 @@ if uploaded_file and uploaded_json and uploaded_model:
         ax.set_ylabel('Importance')
         ax.set_title('Top 10 Feature Importances')
         st.pyplot(fig)
-
+'''
         # Display numeric distributions
         numeric_cols = data.select_dtypes(include=['float64', 'int64']).columns
         if not numeric_cols.empty:
@@ -212,3 +212,4 @@ if uploaded_file and uploaded_json and uploaded_model:
 
 else:
     st.warning("Por favor, sube un archivo CSV, un archivo de modelo (PKL) y un archivo JSON con la estructura de los datos.")
+'''    
